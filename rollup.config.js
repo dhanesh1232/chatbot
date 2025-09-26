@@ -5,7 +5,7 @@ export default [
   {
     input: "src/index.js",
     output: {
-      file: "dist/sdk.umd.js",
+      file: "dist/index.umd.js",
       format: "umd",
       name: "MyChatbot",
       globals: {},
@@ -15,7 +15,7 @@ export default [
   {
     input: "src/index.js",
     output: {
-      file: "dist/sdk.esm.js",
+      file: "dist/index.esm.js",
       format: "esm",
     },
     plugins: [resolve(), terser()],

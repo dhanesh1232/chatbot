@@ -1,9 +1,9 @@
 {
   "name": "ecodrix-sdk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "ECODrIx Chatbot SDK - lightweight widget integration",
-  "main": "dist/sdk.umd.js",
-  "module": "dist/sdk.esm.js",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rollup -c && cp src/index.d.ts dist/index.d.ts",
