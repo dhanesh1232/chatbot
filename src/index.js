@@ -5,7 +5,7 @@ class ECODrIxWidget {
     if (activeWidget) return activeWidget;
 
     this.config = {
-      bubbleIcon: "💬",
+      bubbleIcon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-icon"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/></svg>`,
       bubbleColor: "#4f46e5",
       iconColor: "#ffffff",
       pulseColor: "#34d399",
@@ -18,8 +18,6 @@ class ECODrIxWidget {
       iframeWidth: 340,
       iframeHeight: 500,
       iframeBorderRadius: 8,
-      ripple: true,
-      rippleSpeed: 1.5,
       autoOpen: 0,
       shadow: "0 25px 50px -12px rgba(0,0,0,0.4)",
       bubbleShadow: "0 10px 40px rgba(0,0,0,0.2)",
@@ -28,7 +26,6 @@ class ECODrIxWidget {
 
     this.bubble = null;
     this.iframe = null;
-    this.rippleElements = [];
     this.autoOpenTimeout = null;
     this.isOpen = false;
 
@@ -57,8 +54,6 @@ class ECODrIxWidget {
         this.config.autoOpen * 1000
       );
     }
-
-    if (this.config.ripple) this.createRippleEffect();
   }
 
   updateDimensions() {
@@ -88,11 +83,6 @@ class ECODrIxWidget {
     if (document.getElementById("ecodrix-widget-styles")) return;
 
     const styles = `
-      @keyframes ecodrix-ripple {
-        0% { transform: scale(0.8); opacity: 0.6; }
-        50% { transform: scale(1.1); opacity: 0.3; }
-        100% { transform: scale(1.4); opacity: 0; }
-      }
       @keyframes ecodrix-bubble-float {
         0% { transform: translateY(0px) scale(1); }
         50% { transform: translateY(-5px) scale(1.02); }
@@ -113,104 +103,114 @@ class ECODrIxWidget {
   }
 
   createBubble() {
-    this.bubble = document.createElement("div");
-    this.bubble.className = "ecodrix-bubble-enter";
-    const icon = this.config.bubbleIcon;
+    // Create container for bubble
+    this.bubbleContainer = document.createElement("div");
+    const pos = this.config.bubblePosition.split("-");
+    this.bubbleContainer.style.cssText = `
+    position: fixed;
+    ${pos[0]}: 24px;
+    ${pos[1]}: 16px;
+    width: ${this.config.bubbleSize}px;
+    height: ${this.config.bubbleSize}px;
+    z-index: 100000;
+    pointer-events: auto;
+  `;
 
+    // Create the bubble itself
+    this.bubble = document.createElement("div");
+    this.bubble.style.cssText = `
+    width: ${this.config.bubbleSize}px;
+    height: ${this.config.bubbleSize}px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, ${
+      this.config.bubbleColor
+    }, ${this.shadeColor(this.config.bubbleColor, -20)});
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: visible;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: ${this.config.bubbleShadow};
+  `;
+
+    // Add icon
     const iconContainer = document.createElement("div");
     iconContainer.style.cssText = `
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.3s ease;
-    `;
-
-    if (!icon) {
-      iconContainer.innerText = "💬";
-    } else if (icon.trim().startsWith("<svg")) {
-      iconContainer.innerHTML = icon;
-    } else if (/^(http|\/|\.\/)/.test(icon)) {
-      const img = document.createElement("img");
-      img.src = icon;
-      img.style.cssText = `
-        width: 60%;
-        height: 60%;
-        object-fit: contain;
-        filter: brightness(0) invert(1);
-      `;
-      iconContainer.appendChild(img);
-    } else {
-      iconContainer.innerText = icon;
-      iconContainer.style.fontSize = `${this.config.bubbleSize / 2.5}px`;
-    }
-
-    const pos = this.config.bubblePosition.split("-");
-    this.bubble.style.cssText = `
-      position: fixed;
-      ${pos[0]}: 24px;
-      ${pos[1]}: 16px;
-      width: ${this.config.bubbleSize}px;
-      height: ${this.config.bubbleSize}px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, ${
-        this.config.bubbleColor
-      }, ${this.shadeColor(this.config.bubbleColor, -20)});
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 100000;
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: ${this.config.bubbleShadow};
-      border: 2px solid rgba(255, 255, 255, 0.1);
-    `;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  `;
+    iconContainer.innerHTML = this.config.bubbleIcon;
     this.bubble.appendChild(iconContainer);
-    document.body.appendChild(this.bubble);
+    this.iconContainer = iconContainer;
 
+    this.bubbleContainer.appendChild(this.bubble);
+    document.body.appendChild(this.bubbleContainer);
+
+    // Tooltip
+    this.tooltip = document.createElement("div");
+    this.tooltip.innerText = this.config.tooltipText;
+    this.tooltip.style.cssText = `
+      position: absolute;
+      top: 50%;
+      right: calc(100% + 8px);
+      transform: translateY(-50%);
+      background-color: ${this.config.tooltipBgColor};
+      color: ${this.config.tooltipColor};
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      z-index: 100001;
+    `;
+    // Create arrow
+    const arrow = document.createElement("div");
+    arrow.style.cssText = `
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 5px solid ${this.config.tooltipBgColor};
+      right: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+    `;
+    this.tooltip.appendChild(arrow);
+    this.bubbleContainer.appendChild(this.tooltip);
+
+    // Show tooltip only if iframe is closed
     this.bubble.addEventListener("mouseenter", () => {
+      if (this.isOpen) return; // ❌ Prevent scale & tooltip when iframe open
       this.bubble.style.transform = "scale(1.1)";
-      iconContainer.style.transform = "scale(1.1)";
+      this.iconContainer.style.transform = "scale(1.1)";
+      this.tooltip.style.opacity = "1";
+      this.tooltip.style.transform = "translateY(-50%) translateX(-5px)";
     });
     this.bubble.addEventListener("mouseleave", () => {
-      if (!this.isOpen) {
-        this.bubble.style.transform = "scale(1)";
-        iconContainer.style.transform = "scale(1)";
-      }
+      if (this.isOpen) return;
+      this.bubble.style.transform = "scale(1)";
+      this.iconContainer.style.transform = "scale(1)";
+      this.tooltip.style.opacity = "0";
+      this.tooltip.style.transform = "translateY(-50%) translateX(0)";
     });
+
+    // Click to toggle iframe
     this.bubble.addEventListener("click", () => this.toggleIframe());
-  }
-
-  createRippleEffect() {
-    for (let i = 0; i < 3; i++) {
-      const ripple = document.createElement("div");
-      ripple.style.cssText = `
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        animation: ecodrix-ripple ${
-          (3 - i) / this.config.rippleSpeed
-        }s ease-in-out infinite;
-        animation-delay: ${i * 0.5}s;
-      `;
-      this.bubble.appendChild(ripple);
-      this.rippleElements.push(ripple);
-    }
-
-    setInterval(() => {
-      this.bubble.classList.add("ecodrix-bubble-pulse");
-      setTimeout(() => {
-        this.bubble.classList.remove("ecodrix-bubble-pulse");
-      }, 2000);
-    }, 10000);
   }
 
   preloadIframe() {
@@ -242,29 +242,22 @@ class ECODrIxWidget {
   }
 
   showIframe() {
-    if (!this.iframe || !this.bubble) return;
+    if (!this.iframe) return;
     this.isOpen = true;
-    this.rippleElements.forEach((r) => (r.style.display = "none"));
-    this.bubble.style.transform = "scale(0.8)";
-    this.bubble.style.opacity = "0.7";
-    this.bubble.style.boxShadow = "0 4px 16px rgba(0,0,0,0.1)";
+
+    this.tooltip.style.opacity = "0"; // hide tooltip
+    this.bubble.style.transform = "scale(1)";
     this.iframe.style.opacity = "1";
     this.iframe.style.transform = "scale(1) translateY(0)";
     this.iframe.style.pointerEvents = "auto";
   }
 
   hideIframe() {
-    if (!this.iframe || !this.bubble) return;
+    if (!this.iframe) return;
     this.isOpen = false;
     this.iframe.style.opacity = "0";
     this.iframe.style.transform = "scale(0.8) translateY(20px)";
     this.iframe.style.pointerEvents = "none";
-    setTimeout(() => {
-      this.bubble.style.transform = "scale(1)";
-      this.bubble.style.opacity = "1";
-      this.bubble.style.boxShadow = this.config.bubbleShadow;
-      this.rippleElements.forEach((r) => (r.style.display = "block"));
-    }, 200);
   }
 
   shadeColor(color, percent) {
@@ -284,7 +277,6 @@ class ECODrIxWidget {
     if (this.iframe) this.iframe.remove();
     if (this.bubble) this.bubble.remove();
     if (this.autoOpenTimeout) clearTimeout(this.autoOpenTimeout);
-    this.rippleElements = [];
     const styles = document.getElementById("ecodrix-widget-styles");
     if (styles) styles.remove();
     activeWidget = null;
