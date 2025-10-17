@@ -31,6 +31,11 @@ You can install the SDK using **npm** or a **CDN** link.
 npm install @ecodrix/chatbot
 
 ```
+#### Option 2 — CDN
 ```markdown
 <script src="https://cdn.jsdelivr.net/npm/ecodrix-sdk/dist/index.umd.js"></script>
 ```
+
+#### 🧩 Basic Usage
+
+
