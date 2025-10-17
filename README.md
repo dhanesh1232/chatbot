@@ -80,7 +80,7 @@ ECODrIx.destroy(); // Remove the widget completely
 ```
 
 #### ⚙️ Configuration Options
-```markdown
+
 | Option                 | Type                                                           | Default                               | Description                            |
 | ---------------------- | -------------------------------------------------------------- | ------------------------------------- | -------------------------------------- |
 | **botUrl**             | `string`                                                       | —                                     | URL of the chatbot iframe *(required)* |
@@ -102,4 +102,4 @@ ECODrIx.destroy(); // Remove the widget completely
 | **rippleSpeed**        | `number`                                                       | `1.5`                                 | Ripple speed multiplier                |
 | **autoOpen**           | `number`                                                       | `0`                                   | Seconds before iframe auto-opens       |
 | **closeClickOutside**  | `boolean`                                                      | `true`                                | Close iframe on outside click          |
-```
+
