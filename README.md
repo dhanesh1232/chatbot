@@ -1,14 +1,10 @@
-````markdown
 # 🧠 ECODrIx Chatbot SDK
 
 > A **lightweight, dependency-free JavaScript SDK** for embedding the [ECODrIx Chatbot](https://app.ecodrix.com) widget into *any* website or framework — with elegance, speed, and full customization.
-
 [![npm version](https://img.shields.io/npm/v/ecodrix-sdk.svg?color=4f46e5&style=flat-square)](https://www.npmjs.com/package/ecodrix-sdk)
 [![license](https://img.shields.io/badge/license-MIT-success.svg?style=flat-square)](LICENSE)
 [![build](https://img.shields.io/badge/build-rollup-orange.svg?style=flat-square)](https://rollupjs.org)
 [![size](https://img.shields.io/bundlephobia/minzip/ecodrix-sdk?label=min+gzip&style=flat-square)](https://bundlephobia.com/package/ecodrix-sdk)
-
----
 
 ## ✨ Overview
 
@@ -21,8 +17,6 @@ With a few lines of JavaScript, you can add a floating chat bubble that opens an
 ✅ **Responsive iframe and smooth animations**  
 ✅ **Auto-open timer & click-outside-to-close behavior**
 
----
-
 ## 🚀 Installation
 
 You can install the SDK using **npm** or a **CDN** link.
@@ -31,15 +25,11 @@ You can install the SDK using **npm** or a **CDN** link.
 
 ```bash
 npm install ecodrix-sdk
-````
 
 ### Option 2 — CDN
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/ecodrix-sdk/dist/index.umd.js"></script>
-```
-
----
 
 ## 🧩 Basic Usage
 
