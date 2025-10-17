@@ -193,8 +193,10 @@ It's pure vanilla JavaScript — no React, no external dependencies, no heavy bu
 Perfect for embedding on any platform or CMS.
 
 ### 🧾 License
-Released under the MIT License.
-See [LICENSE(https://img.shields.io/badge/license-MIT-success.svg?style=flat-square)](LICENSE) for details.
+
+Released under the [MIT License](LICENSE).  
+[![License: MIT](https://img.shields.io/badge/license-MIT-success.svg?style=flat-square)](LICENSE)
+
 
 
 #### 🌟 About ECODrIx
