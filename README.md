@@ -103,3 +103,103 @@ ECODrIx.destroy(); // Remove the widget completely
 | **autoOpen**           | `number`                                                       | `0`                                   | Seconds before iframe auto-opens       |
 | **closeClickOutside**  | `boolean`                                                      | `true`                                | Close iframe on outside click          |
 
+
+#### 💻 Advanced Example
+```markdown
+import { ECODrIx } from "ecodrix-sdk";
+```
+```markdown
+const chatbot = ECODrIx.init({
+  botUrl: "https://app.ecodrix.com/widget-frame",
+  bubbleIcon: "<svg>...</svg>",
+  bubbleColor: "#9333ea",
+  tooltipText: "Need help?",
+  tooltipBgColor: "#111827",
+  tooltipColor: "#ffffff",
+  shadow: "0 15px 40px rgba(0,0,0,0.3)",
+  autoOpen: 5,
+});
+```
+```markdown
+// Dynamically update configuration
+chatbot.updateConfig({
+  bubbleColor: "#2563eb",
+  tooltipText: "Chat is live!",
+});
+```
+
+### 🧱 Integration Examples
+#### React/NextJS
+```markdown
+import { useEffect } from 'react';
+import { ECODrIx } from '@ecodrix/chatbot';
+
+export default function App() {
+  useEffect(() => {
+    ECODrIx.init({
+      botUrl: "https://app.ecodrix.com/widget-frame",
+      bubbleColor: "#4f46e5",
+    });
+  }, []);
+
+  return <YourApp />;
+}
+```
+
+#### Vue.js
+```markdown
+import { ECODrIx } from '@ecodrix/chatbot';
+
+export default {
+  mounted() {
+    ECODrIx.init({
+      botUrl: "https://app.ecodrix.com/widget-frame",
+      bubbleColor: "#4f46e5",
+    });
+  }
+}
+```
+#### Static HTML
+```markdown
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Site</title>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/ecodrix-sdk/dist/index.umd.js"></script>
+  <script>
+    ECODrIx.init({
+      botUrl: "https://app.ecodrix.com/widget-frame",
+      bubbleIcon: "💬",
+      autoOpen: 5,
+    });
+  </script>
+</body>
+</html>
+```
+
+#### 🧠 How It Works
+
+Under the hood, the SDK:
+
+Creates a floating bubble button
+Preloads the iframe chatbot for instant open
+Animates bubble hover + ripple pulse
+Handles window resizing & postMessage events for iframe control
+Exposes control methods (init, show, hide, destroy) globally or as module exports
+
+It's pure vanilla JavaScript — no React, no external dependencies, no heavy bundle.
+Perfect for embedding on any platform or CMS.
+
+### 🧾 License
+Released under the MIT License.
+See [LICENSE(https://img.shields.io/badge/license-MIT-success.svg?style=flat-square)](LICENSE) for details.
+
+
+#### 🌟 About ECODrIx
+Built and maintained by the ECODrIx Team,
+crafting elegant automation tools for modern businesses.
+
+
+Ready to enhance user engagement? Install the SDK and start chatting with your visitors in minutes! 🚀
