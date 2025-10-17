@@ -1,98 +1,214 @@
-````markdown
-# ecodrix-sdk
+# 🧠 ECODrIx Chatbot SDK
 
-A lightweight SDK to embed **ECODrIx chatbot widgets** into any website or framework with minimal setup.
+> A **lightweight, dependency-free JavaScript SDK** for embedding the [ECODrIx Chatbot](https://app.ecodrix.com) widget into _any_ website or framework — with elegance, speed, and full customization.
 
----
-
-## Features
-
-- Fully customizable chat bubble (icon, color, size, position)
-- Ripple animation for the bubble
-- Auto-open option after a configurable delay
-- Preloaded iframe for faster display
-- Supports emoji, SVG, or image icons
-- Easy `init` and `destroy` methods
-- Works in any web environment
+[![npm version](https://img.shields.io/npm/v/ecodrix-sdk.svg?color=4f46e5&style=flat-square)](https://www.npmjs.com/package/@ecodrix/chatbot)
+[![license](https://img.shields.io/badge/license-MIT-success.svg?style=flat-square)](LICENSE)
+[![build](https://img.shields.io/badge/build-rollup-orange.svg?style=flat-square)](https://rollupjs.org)
 
 ---
 
-## Installation
+## ✨ Overview
 
-You can include the SDK via **npm** or **direct script**:
+The **ECODrIx SDK** makes it effortless to drop an AI-powered chatbot onto your site.  
+With a few lines of JavaScript, you can add a floating chat bubble that opens an iframe chat window — beautifully animated, mobile-friendly, and fully customizable.
 
-### Using npm
+✅ **No dependencies**  
+✅ **Works with React, Vue, Next.js, static HTML**  
+✅ **Custom bubble colors, tooltips, and icons**  
+✅ **Responsive iframe and smooth animations**  
+✅ **Auto-open timer & click-outside-to-close behavior**
+
+---
+
+## 🚀 Installation
+
+You can install the SDK using **npm** or a **CDN** link.
+
+#### Option 1 — NPM (recommended)
 
 ```bash
-npm install ecodrix-sdk
-```
-````
+npm install @ecodrix/chatbot
 
-### Using CDN
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/ecodrix-sdk/dist/index.umd.js"></script>
 ```
 
----
+#### Option 2 — CDN
 
-## Usage
+```markdown
+<script src="https://cdn.jsdelivr.net/npm/@ecodrix/chatbot/dist/index.umd.js"></script>
+```
 
-### Initialize the widget
+### 🧩 Basic Usage
 
-```javascript
-import { ECODrIx } from "ecodrix-sdk";
+#### ES Module (modern frameworks)
+
+```markdown
+import { ECODrIx } from "@ecodrix/chatbot";
 
 ECODrIx.init({
-  botUrl: "https://app.ecodrix.com/widget-frame",
-  bubbleIcon: "<svg>...</svg>", // or emoji "💬" or image URL
-  bubbleColor: "#4f46e5",
-  bubbleSize: 60,
-  bubblePosition: "bottom-right",
-  iframeWidth: 350,
-  iframeHeight: 500,
-  iframeBorderRadius: 10,
-  ripple: true, // enable bubble ripple
-  rippleSpeed: 1.5, // speed multiplier
-  autoOpen: 15, // seconds after which iframe auto-opens (0 = disabled)
+botUrl: "https://app.ecodrix.com/widget-frame",
+bubbleIcon: "💬",
+bubbleColor: "#4f46e5",
+bubbleSize: 60,
+bubblePosition: "bottom-right",
+iframeWidth: 350,
+iframeHeight: 500,
+iframeBorderRadius: 10,
+autoOpen: 10, // auto-open after 10 seconds
 });
 ```
 
-### Destroy the widget
+#### Global Script (CDN)
 
-```javascript
-ECODrIx.destroy();
+```markdown
+<script src="https://cdn.jsdelivr.net/npm/chatbot/dist/index.umd.js"></script>
+
+<script>
+  ECODrIx.init({
+    botUrl: "https://app.ecodrix.com/widget-frame",
+    bubbleIcon: "💬",
+    bubbleColor: "#4f46e5",
+    autoOpen: 8,
+  });
+</script>
 ```
 
----
+#### Programmatic Control
 
-## Customization Options
-
-| Option               | Type          | Default        | Description                                        |
-| -------------------- | ------------- | -------------- | -------------------------------------------------- | ----------- | -------------- | -------------------------------- |
-| `botUrl`             | string        | —              | URL of the chatbot iframe                          |
-| `bubbleIcon`         | string        | "💬"           | Emoji, SVG, or image URL for bubble                |
-| `bubbleColor`        | string        | "#4f46e5"      | Bubble background color                            |
-| `bubbleSize`         | number        | 60             | Diameter of the bubble in px                       |
-| `bubblePosition`     | "bottom-left" | "bottom-right" | "top-left"                                         | "top-right" | "bottom-right" | Position of the bubble on screen |
-| `iframeWidth`        | number        | 350            | Width of the iframe                                |
-| `iframeHeight`       | number        | 500            | Height of the iframe                               |
-| `iframeBorderRadius` | number        | 10             | Border radius of the iframe                        |
-| `ripple`             | boolean       | true           | Enable ripple animation on bubble                  |
-| `rippleSpeed`        | number        | 1.5            | Speed of ripple animation                          |
-| `autoOpen`           | number        | 0              | Time in seconds to auto-open iframe (0 = disabled) |
-
----
-
-## License
-
-MIT License. See [LICENSE](LICENSE) for details.
-
+```markdown
+ECODrIx.show(); // Open the iframe
+ECODrIx.hide(); // Hide the iframe
+ECODrIx.destroy(); // Remove the widget completely
 ```
 
----
+#### ⚙️ Configuration Options
 
-If you want, I can also make a **version with GIF animations** showing the bubble ripple and iframe auto-open for your GitHub README—it’ll make your repo **much more attractive** to users.
+| Option                 | Type                                                           | Default                               | Description                            |
+| ---------------------- | -------------------------------------------------------------- | ------------------------------------- | -------------------------------------- |
+| **botUrl**             | `string`                                                       | —                                     | URL of the chatbot iframe _(required)_ |
+| **bubbleIcon**         | `string`                                                       | `"💬"`                                | Emoji, SVG string, or image URL        |
+| **bubbleColor**        | `string`                                                       | `"#4f46e5"`                           | Base color for the chat bubble         |
+| **iconColor**          | `string`                                                       | `"#ffffff"`                           | Color for icon inside bubble           |
+| **pulseColor**         | `string`                                                       | `"#34d399"`                           | Pulse/ripple effect color              |
+| **tooltipText**        | `string`                                                       | `"Chat with us!"`                     | Hover tooltip text                     |
+| **tooltipColor**       | `string`                                                       | `"#333333"`                           | Tooltip text color                     |
+| **tooltipBgColor**     | `string`                                                       | `"#ffffff"`                           | Tooltip background color               |
+| **bubbleSize**         | `number`                                                       | `56`                                  | Diameter of bubble in pixels           |
+| **bubblePosition**     | `"bottom-left"`, `"bottom-right"`, `"top-left"`, `"top-right"` | `"bottom-right"`                      | Screen corner position                 |
+| **iframeWidth**        | `number`                                                       | `340`                                 | Width of chat iframe                   |
+| **iframeHeight**       | `number`                                                       | `500`                                 | Height of chat iframe                  |
+| **iframeBorderRadius** | `number`                                                       | `8`                                   | Iframe border radius in px             |
+| **shadow**             | `string`                                                       | `"0 25px 50px -12px rgba(0,0,0,0.4)"` | Shadow under iframe                    |
+| **bubbleShadow**       | `string`                                                       | `"0 10px 40px rgba(0,0,0,0.2)"`       | Shadow under bubble                    |
+| **ripple**             | `boolean`                                                      | `true`                                | Enable ripple animation                |
+| **rippleSpeed**        | `number`                                                       | `1.5`                                 | Ripple speed multiplier                |
+| **autoOpen**           | `number`                                                       | `0`                                   | Seconds before iframe auto-opens       |
+| **closeClickOutside**  | `boolean`                                                      | `true`                                | Close iframe on outside click          |
 
-Do you want me to do that?
+#### 💻 Advanced Example
+
+```markdown
+import { ECODrIx } from "@ecodrix/chatbot";
 ```
+
+```markdown
+const chatbot = ECODrIx.init({
+botUrl: "https://app.ecodrix.com/widget-frame",
+bubbleIcon: "<svg>...</svg>",
+bubbleColor: "#9333ea",
+tooltipText: "Need help?",
+tooltipBgColor: "#111827",
+tooltipColor: "#ffffff",
+shadow: "0 15px 40px rgba(0,0,0,0.3)",
+autoOpen: 5,
+});
+```
+
+```markdown
+// Dynamically update configuration
+chatbot.updateConfig({
+bubbleColor: "#2563eb",
+tooltipText: "Chat is live!",
+});
+```
+
+### 🧱 Integration Examples
+
+#### React/NextJS
+
+```markdown
+import { useEffect } from 'react';
+import { ECODrIx } from '@ecodrix/chatbot';
+
+export default function App() {
+useEffect(() => {
+ECODrIx.init({
+botUrl: "https://app.ecodrix.com/widget-frame",
+bubbleColor: "#4f46e5",
+});
+}, []);
+
+return <YourApp />;
+}
+```
+
+#### Vue.js
+
+```markdown
+import { ECODrIx } from '@ecodrix/chatbot';
+
+export default {
+mounted() {
+ECODrIx.init({
+botUrl: "https://app.ecodrix.com/widget-frame",
+bubbleColor: "#4f46e5",
+});
+}
+}
+```
+
+#### Static HTML
+
+```markdown
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Site</title>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/@ecodrix/chatbot/dist/index.umd.js"></script>
+  <script>
+    ECODrIx.init({
+      botUrl: "https://app.ecodrix.com/widget-frame",
+      bubbleIcon: "💬",
+      autoOpen: 5,
+    });
+  </script>
+</body>
+</html>
+```
+
+#### 🧠 How It Works
+
+Under the hood, the SDK:
+
+Creates a floating bubble button
+Preloads the iframe chatbot for instant open
+Animates bubble hover + ripple pulse
+Handles window resizing & postMessage events for iframe control
+Exposes control methods (init, show, hide, destroy) globally or as module exports
+
+It's pure vanilla JavaScript — no React, no external dependencies, no heavy bundle.
+Perfect for embedding on any platform or CMS.
+
+### 🧾 License
+
+Released under the [MIT License](LICENSE).  
+[![License: MIT](https://img.shields.io/badge/license-MIT-success.svg?style=flat-square)](LICENSE)
+
+#### 🌟 About ECODrIx
+
+Built and maintained by the ECODrIx Team,
+crafting elegant automation tools for modern businesses.
+
+Ready to enhance user engagement? Install the SDK and start chatting with your visitors in minutes! 🚀
