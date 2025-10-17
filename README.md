@@ -1,6 +1,6 @@
 # 🧠 ECODrIx Chatbot SDK
 
-> A **lightweight, dependency-free JavaScript SDK** for embedding the [ECODrIx Chatbot](https://app.ecodrix.com) widget into *any* website or framework — with elegance, speed, and full customization.
+> A **lightweight, dependency-free JavaScript SDK** for embedding the [ECODrIx Chatbot](https://app.ecodrix.com) widget into _any_ website or framework — with elegance, speed, and full customization.
 
 [![npm version](https://img.shields.io/npm/v/ecodrix-sdk.svg?color=4f46e5&style=flat-square)](https://www.npmjs.com/package/@ecodrix/chatbot)
 [![license](https://img.shields.io/badge/license-MIT-success.svg?style=flat-square)](LICENSE)
@@ -31,32 +31,35 @@ You can install the SDK using **npm** or a **CDN** link.
 npm install @ecodrix/chatbot
 
 ```
+
 #### Option 2 — CDN
+
 ```markdown
-<script src="https://cdn.jsdelivr.net/npm/ecodrix-sdk/dist/index.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ecodrix/chatbot/dist/index.umd.js"></script>
 ```
 
 ### 🧩 Basic Usage
 
 #### ES Module (modern frameworks)
-```markdown
 
-import { ECODrIx } from "ecodrix-sdk";
+```markdown
+import { ECODrIx } from "@ecodrix/chatbot";
 
 ECODrIx.init({
-  botUrl: "https://app.ecodrix.com/widget-frame",
-  bubbleIcon: "💬",
-  bubbleColor: "#4f46e5",
-  bubbleSize: 60,
-  bubblePosition: "bottom-right",
-  iframeWidth: 350,
-  iframeHeight: 500,
-  iframeBorderRadius: 10,
-  autoOpen: 10, // auto-open after 10 seconds
+botUrl: "https://app.ecodrix.com/widget-frame",
+bubbleIcon: "💬",
+bubbleColor: "#4f46e5",
+bubbleSize: 60,
+bubblePosition: "bottom-right",
+iframeWidth: 350,
+iframeHeight: 500,
+iframeBorderRadius: 10,
+autoOpen: 10, // auto-open after 10 seconds
 });
-
 ```
+
 #### Global Script (CDN)
+
 ```markdown
 <script src="https://cdn.jsdelivr.net/npm/chatbot/dist/index.umd.js"></script>
 
@@ -68,14 +71,13 @@ ECODrIx.init({
     autoOpen: 8,
   });
 </script>
-
 ```
 
 #### Programmatic Control
 
 ```markdown
-ECODrIx.show();   // Open the iframe
-ECODrIx.hide();   // Hide the iframe
+ECODrIx.show(); // Open the iframe
+ECODrIx.hide(); // Hide the iframe
 ECODrIx.destroy(); // Remove the widget completely
 ```
 
@@ -83,7 +85,7 @@ ECODrIx.destroy(); // Remove the widget completely
 
 | Option                 | Type                                                           | Default                               | Description                            |
 | ---------------------- | -------------------------------------------------------------- | ------------------------------------- | -------------------------------------- |
-| **botUrl**             | `string`                                                       | —                                     | URL of the chatbot iframe *(required)* |
+| **botUrl**             | `string`                                                       | —                                     | URL of the chatbot iframe _(required)_ |
 | **bubbleIcon**         | `string`                                                       | `"💬"`                                | Emoji, SVG string, or image URL        |
 | **bubbleColor**        | `string`                                                       | `"#4f46e5"`                           | Base color for the chat bubble         |
 | **iconColor**          | `string`                                                       | `"#ffffff"`                           | Color for icon inside bubble           |
@@ -103,63 +105,70 @@ ECODrIx.destroy(); // Remove the widget completely
 | **autoOpen**           | `number`                                                       | `0`                                   | Seconds before iframe auto-opens       |
 | **closeClickOutside**  | `boolean`                                                      | `true`                                | Close iframe on outside click          |
 
-
 #### 💻 Advanced Example
+
 ```markdown
-import { ECODrIx } from "ecodrix-sdk";
+import { ECODrIx } from "@ecodrix/chatbot";
 ```
+
 ```markdown
 const chatbot = ECODrIx.init({
-  botUrl: "https://app.ecodrix.com/widget-frame",
-  bubbleIcon: "<svg>...</svg>",
-  bubbleColor: "#9333ea",
-  tooltipText: "Need help?",
-  tooltipBgColor: "#111827",
-  tooltipColor: "#ffffff",
-  shadow: "0 15px 40px rgba(0,0,0,0.3)",
-  autoOpen: 5,
+botUrl: "https://app.ecodrix.com/widget-frame",
+bubbleIcon: "<svg>...</svg>",
+bubbleColor: "#9333ea",
+tooltipText: "Need help?",
+tooltipBgColor: "#111827",
+tooltipColor: "#ffffff",
+shadow: "0 15px 40px rgba(0,0,0,0.3)",
+autoOpen: 5,
 });
 ```
+
 ```markdown
 // Dynamically update configuration
 chatbot.updateConfig({
-  bubbleColor: "#2563eb",
-  tooltipText: "Chat is live!",
+bubbleColor: "#2563eb",
+tooltipText: "Chat is live!",
 });
 ```
 
 ### 🧱 Integration Examples
+
 #### React/NextJS
+
 ```markdown
 import { useEffect } from 'react';
 import { ECODrIx } from '@ecodrix/chatbot';
 
 export default function App() {
-  useEffect(() => {
-    ECODrIx.init({
-      botUrl: "https://app.ecodrix.com/widget-frame",
-      bubbleColor: "#4f46e5",
-    });
-  }, []);
+useEffect(() => {
+ECODrIx.init({
+botUrl: "https://app.ecodrix.com/widget-frame",
+bubbleColor: "#4f46e5",
+});
+}, []);
 
-  return <YourApp />;
+return <YourApp />;
 }
 ```
 
 #### Vue.js
+
 ```markdown
 import { ECODrIx } from '@ecodrix/chatbot';
 
 export default {
-  mounted() {
-    ECODrIx.init({
-      botUrl: "https://app.ecodrix.com/widget-frame",
-      bubbleColor: "#4f46e5",
-    });
-  }
+mounted() {
+ECODrIx.init({
+botUrl: "https://app.ecodrix.com/widget-frame",
+bubbleColor: "#4f46e5",
+});
+}
 }
 ```
+
 #### Static HTML
+
 ```markdown
 <!DOCTYPE html>
 <html>
@@ -167,7 +176,7 @@ export default {
   <title>My Site</title>
 </head>
 <body>
-  <script src="https://cdn.jsdelivr.net/npm/ecodrix-sdk/dist/index.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@ecodrix/chatbot/dist/index.umd.js"></script>
   <script>
     ECODrIx.init({
       botUrl: "https://app.ecodrix.com/widget-frame",
@@ -197,11 +206,9 @@ Perfect for embedding on any platform or CMS.
 Released under the [MIT License](LICENSE).  
 [![License: MIT](https://img.shields.io/badge/license-MIT-success.svg?style=flat-square)](LICENSE)
 
-
-
 #### 🌟 About ECODrIx
+
 Built and maintained by the ECODrIx Team,
 crafting elegant automation tools for modern businesses.
-
 
 Ready to enhance user engagement? Install the SDK and start chatting with your visitors in minutes! 🚀
